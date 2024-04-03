@@ -13,8 +13,11 @@ SCRIPTDIR = os.path.dirname(__file__)
 YAMLFILE = os.path.join(SCRIPTDIR, 'config.yaml')
 
 ## extract data from the config yaml file
-with open(YAMLFILE, 'r') as file:
-    params = yaml.safe_load(file)
+try:
+    with open(YAMLFILE, 'r') as file:
+        params = yaml.safe_load(file)
+except Exception as e:
+   print("Error reading the config file")
 
 year = params['year']
 url = f'https://www.ncei.noaa.gov/data/local-climatological-data/access/{year}/'
@@ -43,7 +46,9 @@ for name in fileName:
  open(name,'wb').write(response.content)
 
 ## zip the files
-with ZipFile(os.path.join(SCRIPTDIR, '/zippedWeather.zip'),'w') as zip:
- for file in fileName:
-  zip.write(file)
-
+try:
+    with ZipFile(os.path.join(SCRIPTDIR, '/zippedWeather.zip'),'w') as zip:
+        for file in fileName:
+            zip.write(file)
+except Exception as e:
+   print("Error zipping files")

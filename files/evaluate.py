@@ -7,9 +7,12 @@ def evaluate():
     ## get path of current directory
     SCRIPTDIR = os.path.dirname(__file__)
 
-    ## load the ground truth and computed monthly values
-    monthlyValues = pd.read_csv(SCRIPTDIR+'/monthlyValues.csv')
-    monthlyValuesComputed = pd.read_csv(SCRIPTDIR+'/monthlyComputed.csv')
+    try:
+        ## load the ground truth and computed monthly values
+        monthlyValues = pd.read_csv(SCRIPTDIR+'/monthlyValues.csv')
+        monthlyValuesComputed = pd.read_csv(SCRIPTDIR+'/monthlyComputed.csv')
+    except Exception as e:
+        print("Error reading the csv files")
 
     ## if the length of the two datasets is not equal, truncate the longer dataset
     if len(monthlyValues) != len(monthlyValuesComputed):
