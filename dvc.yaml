@@ -1,0 +1,33 @@
+stages:
+  download:
+    cmd: python files/download.py
+    deps:
+      - files/download.py
+    outs:
+      - files/zippedWeather.zip
+
+  prepare:
+    cmd: python files/prepare.py
+    deps:
+      - files/prepare.py
+      - files/zippedWeather.zip
+    outs:
+      - files/monthlyValues.csv
+      - files/fileParams.yaml
+
+  process:
+    cmd: python files/process.py
+    deps:
+      - files/process.py
+      - files/fileParams.yaml
+      - files/dummyweather.zip
+    outs:
+      - files/monthlyComputed.csv
+
+  evaluate:
+    cmd: python files/evaluate.py
+    deps:
+      - files/monthlyValues.csv
+      - files/monthlyComputed.csv
+   
+
